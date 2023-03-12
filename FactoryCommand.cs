@@ -8,7 +8,7 @@ namespace MyRPC
 {
     public abstract class FactoryCommand
     {
-        public abstract ICommand CreateCommand(string command_string);
+        public abstract ICommand CreateCommand(string commandString);
     }
 
 }

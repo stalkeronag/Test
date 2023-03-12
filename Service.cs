@@ -3,67 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace MyRPC
 {
     public class Service
     {
-        private Dictionary<int, Executor> dict_executors;
+        private FactoryCommand factory;
 
-        private IRouter router;
+        private Pipe pipe;
 
-        private IParserCommand parser;
-        
-        private Service(Dictionary<int, Executor> executors)
+        public Service(FactoryCommand factory, Pipe pipe)
         {
-            this.dict_executors = executors;
+            this.factory = factory;
+            this.pipe = pipe;
         }
 
-        private Service(Dictionary<int, Executor> executors, IRouter router) : this(executors)
+        public void Start()
         {
-            this.router = router;
-            this.router.OnRouteFind += ExecuteByID;
+            this.pipe.packetReceived += PacketAvailable;
         }
 
-        public Service(Dictionary<int, Executor> dict_executors, IRouter router, IParserCommand parser) : this(dict_executors, router)
+        private void PacketAvailable()
         {
-            this.parser = parser;
+            byte[] packet = pipe.GiveEmail();
+            string stringCommand = Encoding.UTF8.GetString(packet);
+            ICommand command =  factory.CreateCommand(stringCommand);
+            command.Execute();
         }
 
-        public void AddExecutor(int id, Executor executor)
+        public void Stop()
         {
-            if (!dict_executors.ContainsKey(id))
-            {
-                dict_executors.Add(id, executor);
-            }
-            else
-            {
-                throw new Exception("Executor in the same id exists");
-            }
-        }
-
-        public void RemoveExecutor(int id)
-        {
-            if(dict_executors.ContainsKey(id))
-            {
-                dict_executors.Remove(id);
-            }
-        }
-
-        private void ExecuteByID(int id)
-        {
-            if (dict_executors.ContainsKey(id))
-            {
-                dict_executors[id].Execute();
-            }
-        }
-
-        public void StopExecutorById(int id)
-        {
-            if(dict_executors.ContainsKey(id))
-            {
-                dict_executors[id].Stop();  
-            }
+            this.pipe.packetReceived -= PacketAvailable;
         }
     }
 }

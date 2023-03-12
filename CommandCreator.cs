@@ -17,19 +17,19 @@ namespace MyRPC
 
     public class CommandCreator : FactoryCommand
     {
-        private Dictionary<Command, ICommand> dictCommand;
+        private Dictionary<string, ICommand> dictCommand;
 
         private IParserCommand parser;
 
         public CommandCreator(IParserCommand parser)
         {
             this.parser = parser;
-            dictCommand = new Dictionary<Command, ICommand>
+            dictCommand = new Dictionary<string, ICommand>
             {
-                { Command.Mkdir, new CommandCreateDirectory() },
-                { Command.RemoveDir, new CommandDeleteDirectory() },
-                { Command.List, new CommandShowFilesAndDirectories() },
-                { Command.RemoveFile, new CommandDeleteFile() },
+                { Command.Mkdir.ToString(), new CommandCreateDirectory() },
+                { Command.RemoveDir.ToString(), new CommandDeleteDirectory() },
+                { Command.List.ToString(), new CommandShowFilesAndDirectories() },
+                { Command.RemoveFile.ToString(), new CommandDeleteFile() }
             };
         }
 
@@ -39,14 +39,11 @@ namespace MyRPC
             string[] flags = commandData.Flags;
             string[] args = commandData.Args;
             string nameCommand = commandData.Name;
-            foreach(var item in dictCommand.Keys)
+            if(dictCommand.ContainsKey(nameCommand))
             {
-                if(item.ToString() == nameCommand)
-                {
-                    ICommand command = dictCommand[item];
-                    AddFlagsAndArgs(command, args, flags);
-                    return command;
-                }
+                ICommand command = dictCommand[nameCommand];
+                AddFlagsAndArgs(command, args, flags);
+                return command;
             }
             throw new CommandException("command not found");
         }

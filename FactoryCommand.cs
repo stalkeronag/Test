@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyRPC
 {
-    public interface ICommand
+    public abstract class FactoryCommand
     {
-        string[] Args { get; set; }
-
-        string[] Flags { get; set; }
-
-        public void Execute();
+        public abstract ICommand CreateCommand(string command_string);
     }
+
 }

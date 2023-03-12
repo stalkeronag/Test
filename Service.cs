@@ -12,7 +12,7 @@ namespace MyRPC
 
         private IRouter router;
 
-        private IParser parser;
+        private IParserCommand parser;
         
         private Service(Dictionary<int, Executor> executors)
         {
@@ -25,7 +25,7 @@ namespace MyRPC
             this.router.OnRouteFind += ExecuteByID;
         }
 
-        public Service(Dictionary<int, Executor> dict_executors, IRouter router, IParser parser) : this(dict_executors, router)
+        public Service(Dictionary<int, Executor> dict_executors, IRouter router, IParserCommand parser) : this(dict_executors, router)
         {
             this.parser = parser;
         }

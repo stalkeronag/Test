@@ -6,8 +6,8 @@ namespace MyRPC
 {
     public enum Command
     {
-        Mkdir = 12,
-        List = 11,
+        Mkdir,
+        List,
         RemoveDir,
         RemoveFile,
         Load,

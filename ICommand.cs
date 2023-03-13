@@ -13,5 +13,7 @@ namespace MyRPC
         string[] Flags { get; set; }
 
         public void Execute();
+
+        public void ExecuteWithCallback(Action<byte[]> callback);
     }
 }

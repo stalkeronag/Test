@@ -11,6 +11,11 @@ namespace MyRPC.Commands
         {
             throw new NotImplementedException();
         }
+
+        public void ExecuteWithCallback(Action<byte[]> callback)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

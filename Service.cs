@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text;
 
 namespace MyRPC
 {
@@ -28,8 +27,7 @@ namespace MyRPC
         {
             byte[] packet = pipe.GiveEmail();
             string stringCommand = Encoding.UTF8.GetString(packet);
-            ICommand command =  factory.CreateCommand(stringCommand);
-            command.Execute();
+            factory.CreateCommand(stringCommand).ExecuteWithCallback((x) => Console.WriteLine("fdsf"));//(x) => sender.Send(x)
         }
 
         public void Stop()

@@ -21,6 +21,7 @@ namespace MyRPC
 
         private IParserCommand parser;
 
+
         public CommandCreator(IParserCommand parser)
         {
             this.parser = parser;
@@ -33,6 +34,7 @@ namespace MyRPC
             };
         }
 
+
         public override ICommand CreateCommand(string command_string)
         {
             CommandData commandData = parser.Parse(command_string);
@@ -43,6 +45,10 @@ namespace MyRPC
             {
                 ICommand command = dictCommand[nameCommand];
                 AddFlagsAndArgs(command, args, flags);
+                if(handler != null)
+                {
+                    command.handler = handler;
+                }
                 return command;
             }
             throw new CommandException("command not found");

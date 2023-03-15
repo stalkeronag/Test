@@ -28,8 +28,8 @@ namespace MyRPC
         {
             byte[] packet = pipe.GiveEmail();
             string stringCommand = Encoding.UTF8.GetString(packet);
-            //factory.Handler = sender;
-            //factory.CreateCommand(stringCommand).Execute();
+           // factory.Handler = sender;
+            factory.CreateCommand(stringCommand).Execute();
             
         }
 

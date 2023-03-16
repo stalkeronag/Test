@@ -45,10 +45,6 @@ namespace MyRPC
             {
                 ICommand command = dictCommand[nameCommand];
                 AddFlagsAndArgs(command, args, flags);
-                if(handler != null)
-                {
-                    command.handler = handler;
-                }
                 return command;
             }
             throw new CommandException("command not found");

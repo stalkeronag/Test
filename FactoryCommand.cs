@@ -10,20 +10,6 @@ namespace MyRPC
 {
     public abstract class FactoryCommand
     {
-        protected IHandler handler;
-        
-        public IHandler Handler
-        {
-            get
-            {
-                return handler;
-            }
-            set
-            {
-                handler = value;
-            }
-        }
-
         public abstract ICommand CreateCommand(string commandString);
     }
 

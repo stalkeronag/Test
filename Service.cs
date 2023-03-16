@@ -7,35 +7,37 @@ using System.Threading.Tasks;
 
 namespace MyRPC
 {
+    public delegate void HandlerBytes(byte[] data);
+
     public class Service
     {
         private FactoryCommand factory;
 
-        private Pipe pipe;
+        private IConnection connection;
 
-        public Service(FactoryCommand factory, Pipe pipe)
+        public Service(FactoryCommand factory, IConnection connection)
         {
             this.factory = factory;
-            this.pipe = pipe;
+            this.connection = connection;
         }
 
         public void Start()
         {
-            this.pipe.packetReceived += PacketAvailable;
+            connection.Connect();
+            while(true)
+            {
+                byte[] bytes = connection.Read();
+                string commandString = Encoding.UTF8.GetString(bytes);
+                ICommand command = factory.CreateCommand(commandString);
+                command.Execute((x) => connection.Send(x));
+            }
         }
 
-        private void PacketAvailable()
-        {
-            byte[] packet = pipe.GiveEmail();
-            string stringCommand = Encoding.UTF8.GetString(packet);
-           // factory.Handler = sender;
-            factory.CreateCommand(stringCommand).Execute();
-            
-        }
+      
 
         public void Stop()
         {
-            this.pipe.packetReceived -= PacketAvailable;
+            connection.Close();
         }
     }
 }

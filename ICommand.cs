@@ -11,10 +11,7 @@ namespace MyRPC
         string[] Args { get; set; }
 
         string[] Flags { get; set; }
-
-        public IHandler handler { get; set; }
-
-        public void Execute();
+        public void Execute(HandlerBytes handler);
 
     }
 }

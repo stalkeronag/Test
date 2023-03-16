@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using MyRPC.Commands;
 
-namespace MyRPC
+namespace MyRPC.Server
 {
     public enum Command
     {
@@ -41,7 +41,7 @@ namespace MyRPC
             string[] flags = commandData.Flags;
             string[] args = commandData.Args;
             string nameCommand = commandData.Name;
-            if(dictCommand.ContainsKey(nameCommand))
+            if (dictCommand.ContainsKey(nameCommand))
             {
                 ICommand command = dictCommand[nameCommand];
                 AddFlagsAndArgs(command, args, flags);

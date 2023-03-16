@@ -1,4 +1,4 @@
-﻿using MyRPC;
+﻿using MyRPC.Server;
 
 namespace MyRPC.Commands
 {

@@ -1,4 +1,6 @@
-﻿namespace MyRPC.Commands
+﻿using MyRPC.Server;
+
+namespace MyRPC.Commands
 {
     public class CommandDeleteDirectory : ICommand
     {

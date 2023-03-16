@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyRPC
+namespace MyRPC.Interfaces
 {
     public interface ICommand
     {

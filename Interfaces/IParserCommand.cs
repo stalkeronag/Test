@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyRPC
+namespace MyRPC.Interfaces
 {
     public interface IParserCommand
     {
-        public CommandData Parse(string str); 
+        public CommandData Parse(string str);
     }
 }

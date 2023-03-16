@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using MyRPC;
+using MyRPC.Interfaces;
 using MyRPC.Server;
 using System.Net;
 

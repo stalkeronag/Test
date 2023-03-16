@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyRPC
+namespace MyRPC.Server
 {
     public class ParserCommand : IParserCommand
     {
@@ -17,11 +17,11 @@ namespace MyRPC
             commandData.Name = words[0];
             List<string> args = new List<string>();
             List<string> flags = new List<string>();
-            for(int i = 1; i < words.Length; i++)
+            for (int i = 1; i < words.Length; i++)
             {
                 if (words[i][0] == '-')
                 {
-                    for(int j = 1; j < words[i].Length; j++)
+                    for (int j = 1; j < words[i].Length; j++)
                     {
                         flags.Add(words[i][j].ToString());
                     }

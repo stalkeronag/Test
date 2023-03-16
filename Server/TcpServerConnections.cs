@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,26 +10,57 @@ namespace MyRPC.Server
 {
     public class TcpServerConnections : IConnection
     {
-        
+        private TcpListener listener;
+
+        private int port;
+
+        private IPAddress address;
+
+        private NetworkStream stream;
+
+        public TcpServerConnections(TcpListener listener)
+        {
+            this.listener = listener;
+
+        }
+
+        public TcpServerConnections(IPAddress address , int port)
+        {
+            this.address = address; 
+            this.port = port;
+            listener = new TcpListener(address, port);
+        }
+
+        public TcpServerConnections(IPEndPoint endPoint)
+        {
+            this.port=endPoint.Port;
+            this.address = endPoint.Address;
+            listener = new TcpListener(endPoint);
+
+        }
 
         public void Close()
         {
-            throw new NotImplementedException();
+            listener.Stop();
         }
 
         public void Connect()
         {
-            throw new NotImplementedException();
+            listener.Start();
+            var client = listener.AcceptTcpClient();
+            stream = client.GetStream(); 
         }
 
         public byte[] Read()
         {
-            throw new NotImplementedException();
+            byte[] buffer = new byte[1024];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
         }
 
         public void Send(byte[] data)
         {
-            throw new NotImplementedException();
+            stream.Write(data, 0, data.Length);
         }
     }
 }

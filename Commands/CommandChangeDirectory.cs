@@ -34,22 +34,6 @@ namespace MyRPC.Commands
                     ServerConfig.currentDirectory = path;
                     result ="directory found:" + path;
                 }
-                else
-                {
-                    if(path == "..")
-                    {
-                      var directoryInfo = Path.Combine(ServerConfig.currentDirectory, "..");
-                      result = "directory found:" + directoryInfo;
-                      result = result.Substring(0, result.Length - 2);
-                    }
-                    else
-                    {
-                        if(path == ".")
-                        {
-                            result = "directory found:" + ServerConfig.currentDirectory;
-                        }
-                    }
-                }
             }
             byte[] resultInBytes = Encoding.UTF8.GetBytes(result);
             handler.Invoke(resultInBytes);

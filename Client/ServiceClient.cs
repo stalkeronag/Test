@@ -26,6 +26,10 @@ namespace MyRPC.Client
                 try
                 {
                     string stringCommand = Console.ReadLine();
+                    if(String.IsNullOrEmpty(stringCommand))
+                    {
+                        continue;
+                    }
                     byte[] bytes = Encoding.UTF8.GetBytes(stringCommand);
                     connection.Send(bytes);
                     byte[] response = connection.Read();

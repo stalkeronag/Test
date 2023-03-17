@@ -13,7 +13,8 @@ namespace MyRPC.Server
         RemoveFile,
         Load,
         Install,
-        Hello
+        Hello,
+        Cd
     }
 
 
@@ -33,7 +34,8 @@ namespace MyRPC.Server
                 { Command.RemoveDir.ToString(), new CommandDeleteDirectory() },
                 { Command.List.ToString(), new CommandShowFilesAndDirectories() },
                 { Command.RemoveFile.ToString(), new CommandDeleteFile() },
-                { Command.Hello.ToString(), new HelloCommand() }
+                { Command.Hello.ToString(), new HelloCommand() },
+                { Command.Cd.ToString(), new CommandChangeDirectory() },
             };
         }
 

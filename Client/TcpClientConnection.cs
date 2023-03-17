@@ -55,6 +55,11 @@ namespace MyRPC.Client
                 byte[] buffer = new byte[1024];
                 int length = stream.Read(buffer, 0, buffer.Length);
                 memoryStream.Write(buffer, 0, length);
+                while (stream.DataAvailable)
+                {
+                    length = stream.Read(buffer, 0, buffer.Length);
+                    memoryStream.Write(buffer, 0, length);
+                }
                 return memoryStream.ToArray();
             }
         }

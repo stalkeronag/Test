@@ -23,12 +23,23 @@ namespace MyRPC.Client
             connection.Connect();
             while(true)
             {
-                string stringCommand = Console.ReadLine();
-                byte[] bytes= Encoding.UTF8.GetBytes(stringCommand);
-                connection.Send(bytes);
-                byte[] response = connection.Read();
-                string answer = Encoding.UTF8.GetString(response);
-                Console.WriteLine(answer);
+                try
+                {
+                    string stringCommand = Console.ReadLine();
+                    byte[] bytes = Encoding.UTF8.GetBytes(stringCommand);
+                    connection.Send(bytes);
+                    byte[] response = connection.Read();
+                    string answer = Encoding.UTF8.GetString(response);
+                    Console.WriteLine("Server response:");
+                    Console.WriteLine(answer);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    connection.Close();
+                    connection.Connect();
+                }
+                
             }
            
         }

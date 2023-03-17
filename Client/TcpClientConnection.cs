@@ -25,7 +25,7 @@ namespace MyRPC.Client
         public TcpClientConnection(IPEndPoint endPoint)
         {
             this.remoteEndPoint = endPoint;
-            client = new TcpClient();
+           
         }
 
 
@@ -36,8 +36,16 @@ namespace MyRPC.Client
 
         public void Connect()
         {
-            client.Connect(remoteEndPoint);
-            stream = client.GetStream();
+            try
+            {
+                client = new TcpClient();
+                client.Connect(remoteEndPoint);
+                stream = client.GetStream();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }   
         }
 
         public byte[] Read()

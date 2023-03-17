@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using MyRPC.Commands;
 using MyRPC.Interfaces;
 
 namespace MyRPC.Server
@@ -27,13 +28,30 @@ namespace MyRPC.Server
             connection.Connect();
             while (true)
             {
-                byte[] bytes = connection.Read();
-                string commandString = Encoding.UTF8.GetString(bytes);
-                ICommand command = factory.CreateCommand(commandString);
-                command.Execute((x) => connection.Send(x));
+                try
+                {
+                    byte[] bytes = connection.Read();
+                    string commandString = Encoding.UTF8.GetString(bytes);
+                    try
+                    {
+                        ICommand command = factory.CreateCommand(commandString);
+                        command.Execute((x) => connection.Send(x));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        byte[] message_exception = Encoding.UTF8.GetBytes(ex.Message);
+                        connection.Send(message_exception);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);   
+                    connection.Close();
+                    connection.Connect();
+                }  
             }
         }
-
 
 
         public void Stop()

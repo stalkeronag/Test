@@ -1,11 +1,12 @@
-﻿using MyRPC.Server;
+﻿using MyRPC.Interfaces;
+using MyRPC.Server;
 
 namespace MyRPC.Commands
 {
     public class CommandShowFilesAndDirectories : ICommand
     {
-        public string[] Args { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string[] Flags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string[] Args { get; set; }
+        public string[] Flags { get; set; }
 
         public void Execute(HandlerBytes handler)
         {

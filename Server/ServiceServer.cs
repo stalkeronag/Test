@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using MyRPC.Interfaces;
 
-namespace MyRPC
+namespace MyRPC.Server
 {
     public delegate void HandlerBytes(byte[] data);
 
-    public class Service
+    public class ServiceServer : IService
     {
         private FactoryCommand factory;
 
         private IConnection connection;
 
-        public Service(FactoryCommand factory, IConnection connection)
+        public ServiceServer(FactoryCommand factory, IConnection connection)
         {
             this.factory = factory;
             this.connection = connection;
@@ -25,7 +25,7 @@ namespace MyRPC
         public void Start()
         {
             connection.Connect();
-            while(true)
+            while (true)
             {
                 byte[] bytes = connection.Read();
                 string commandString = Encoding.UTF8.GetString(bytes);
@@ -34,7 +34,7 @@ namespace MyRPC
             }
         }
 
-      
+
 
         public void Stop()
         {

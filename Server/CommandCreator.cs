@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using MyRPC.Commands;
+using MyRPC.Interfaces;
 
 namespace MyRPC.Server
 {
@@ -11,7 +12,8 @@ namespace MyRPC.Server
         RemoveDir,
         RemoveFile,
         Load,
-        Install
+        Install,
+        Hello
     }
 
 
@@ -30,7 +32,8 @@ namespace MyRPC.Server
                 { Command.Mkdir.ToString(), new CommandCreateDirectory() },
                 { Command.RemoveDir.ToString(), new CommandDeleteDirectory() },
                 { Command.List.ToString(), new CommandShowFilesAndDirectories() },
-                { Command.RemoveFile.ToString(), new CommandDeleteFile() }
+                { Command.RemoveFile.ToString(), new CommandDeleteFile() },
+                { Command.Hello.ToString(), new HelloCommand() }
             };
         }
 

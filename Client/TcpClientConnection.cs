@@ -42,9 +42,13 @@ namespace MyRPC.Client
 
         public byte[] Read()
         {
-            byte[] buffer = new byte[1024];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                byte[] buffer = new byte[1024];
+                int length = stream.Read(buffer, 0, buffer.Length);
+                memoryStream.Write(buffer, 0, length);
+                return memoryStream.ToArray();
+            }
         }
 
         public void Send(byte[] data)

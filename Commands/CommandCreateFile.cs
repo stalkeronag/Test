@@ -1,12 +1,13 @@
 ﻿using System;
+using MyRPC.Interfaces;
 using MyRPC.Server;
 
 namespace MyRPC.Commands
 {
     public class CommandCreateFile : ICommand
     {
-        public string[] Args { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string[] Flags { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string[] Args { get; set; }
+        public string[] Flags { get; set; }
 
        
         public void Execute(HandlerBytes handler)

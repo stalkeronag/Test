@@ -30,10 +30,12 @@ if(mode == 1)
     ICommand changeDirectory = new CommandChangeDirectory() { Name = "Cd" };
     ICommand listDir = new CommandShowFilesAndDirectories() { Name = "List" };
     ICommand testChat = new TestChatCommand(connection) { Name = "Chat"};
+    ICommand senderGmail = new CommandSendGmail(connection) { Name = "Gmail" };
     factory.AddCommand(helloCommand);
     factory.AddCommand(changeDirectory);
     factory.AddCommand(listDir);
     factory.AddCommand(testChat);
+    factory.AddCommand(senderGmail);
     service = new ServiceServer(factory, connection);
     service.Start();
 }

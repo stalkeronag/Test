@@ -9,9 +9,14 @@ namespace MyRPC.Interfaces
 {
     public interface ICommand
     {
+        string Name { get; set; }
+
         string[] Args { get; set; }
 
+
         string[] Flags { get; set; }
+
+
         public void Execute(HandlerBytes handler);
 
     }

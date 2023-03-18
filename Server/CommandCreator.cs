@@ -5,18 +5,6 @@ using MyRPC.Interfaces;
 
 namespace MyRPC.Server
 {
-    public enum Command
-    {
-        Mkdir,
-        List,
-        RemoveDir,
-        RemoveFile,
-        Load,
-        Install,
-        Hello,
-        Cd
-    }
-
 
     public class CommandCreator : FactoryCommand
     {
@@ -28,15 +16,7 @@ namespace MyRPC.Server
         public CommandCreator(IParserCommand parser)
         {
             this.parser = parser;
-            dictCommand = new Dictionary<string, ICommand>
-            {
-                { Command.Mkdir.ToString(), new CommandCreateDirectory() },
-                { Command.RemoveDir.ToString(), new CommandDeleteDirectory() },
-                { Command.List.ToString(), new CommandShowFilesAndDirectories() },
-                { Command.RemoveFile.ToString(), new CommandDeleteFile() },
-                { Command.Hello.ToString(), new HelloCommand() },
-                { Command.Cd.ToString(), new CommandChangeDirectory() },
-            };
+            dictCommand = new Dictionary<string, ICommand>();
         }
 
 
@@ -59,6 +39,11 @@ namespace MyRPC.Server
         {
             command.Flags = flags;
             command.Args = args;
+        }
+
+        public override void AddCommand(ICommand command)
+        {
+            dictCommand.Add(command.Name, command);
         }
     }
 

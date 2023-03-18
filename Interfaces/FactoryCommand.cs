@@ -11,6 +11,8 @@ namespace MyRPC.Interfaces
     public abstract class FactoryCommand
     {
         public abstract ICommand CreateCommand(string commandString);
+
+        public abstract void AddCommand(ICommand command);
     }
 
 }

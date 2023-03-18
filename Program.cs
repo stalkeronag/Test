@@ -1,4 +1,5 @@
 ﻿using MyRPC.Client;
+using MyRPC.Commands;
 using MyRPC.Interfaces;
 using MyRPC.Server;
 using System.Net;
@@ -12,6 +13,8 @@ using(StreamReader reader = new StreamReader("..\\..\\..\\Server\\ConfigServer.j
 {
    jsonString =  reader.ReadToEnd();
 }
+
+
 ServerConfig config = JsonSerializer.Deserialize<ServerConfig>(jsonString);
 ServerConfig.currentDirectory = "C:\\";
 IService service;
@@ -23,6 +26,14 @@ if(mode == 1)
     IConnection connection = new TcpServerConnections(endPoint);
     IParserCommand parser = new ParserCommand();
     FactoryCommand factory = new CommandCreator(parser);
+    ICommand helloCommand = new HelloCommand() { Name = "Hello" };
+    ICommand changeDirectory = new CommandChangeDirectory() { Name = "Cd" };
+    ICommand listDir = new CommandShowFilesAndDirectories() { Name = "List" };
+    ICommand testChat = new TestChatCommand(connection) { Name = "Chat"};
+    factory.AddCommand(helloCommand);
+    factory.AddCommand(changeDirectory);
+    factory.AddCommand(listDir);
+    factory.AddCommand(testChat);
     service = new ServiceServer(factory, connection);
     service.Start();
 }

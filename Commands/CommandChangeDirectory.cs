@@ -12,6 +12,7 @@ namespace MyRPC.Commands
     {
         public string[] Args { get; set; }
         public string[] Flags { get; set; }
+        public string Name { get; set; }
 
         public void Execute(HandlerBytes handler)
         {

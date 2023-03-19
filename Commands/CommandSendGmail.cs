@@ -19,36 +19,47 @@ namespace MyRPC.Commands
 
         private IConnection connection;
 
+        private SmtpClient client;
+
+        private MailMessage email;
+
+        private string[] phrases;
+
         public CommandSendGmail(IConnection connection)
         {
             this.connection = connection;
+            client = new SmtpClient("smtp.gmail.com", 587);
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            email = new MailMessage();
+            phrases = new string[6]
+            {
+                "Input your email",
+                "Input send email",
+                "input subject",
+                "Input body",
+                "Input attachments",
+                "input password"
+            };
         }
 
         public void Execute(HandlerBytes handler)
         {
-            string requestedFrom = "Input your email";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedFrom));
-            string from = Encoding.UTF8.GetString(connection.Read());
-            string requestedTo = "Input send email";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedTo));
-            string to  = Encoding.UTF8.GetString(connection.Read());
-            string requestedSubject = "input subject";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedSubject));
-            string subject = Encoding.UTF8.GetString(connection.Read());
-            string requestedBody = "Input body";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedBody));
-            string body = Encoding.UTF8.GetString(connection.Read());
-            string requestedAttachments = "Input attachments";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedAttachments));
-            string[] files = Encoding.UTF8.GetString(connection.Read()).Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            string requestedPassword = "input password";
-            handler.Invoke(Encoding.UTF8.GetBytes(requestedPassword));
-            string pass = Encoding.UTF8.GetString(connection.Read());
+            string[] result = new string[6];
+            for(int i = 0; i < phrases.Length; i++)
+            {
+                handler.Invoke(Encoding.UTF8.GetBytes(phrases[i]));
+                result[i] = Encoding.UTF8.GetString(connection.Read());
+            }
+            string from = result[0];
+            string to = result[1];
+            string subject = result[2];
+            string body = result[3];
+            string[] files = result[4].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            string pass = result[5];
             try
             {
-                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                MailMessage email = new MailMessage();
                 email.From = new MailAddress(from);
                 email.To.Add(to);
                 email.Subject = subject;
@@ -57,8 +68,6 @@ namespace MyRPC.Commands
                 {
                     email.Attachments.Add(new Attachment(Path.Combine(ServerConfig.currentDirectory, file)));
                 }
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(from, pass);
                 client.Send(email);
                 handler.Invoke(Encoding.UTF8.GetBytes("Something like good"));

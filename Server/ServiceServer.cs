@@ -25,7 +25,7 @@ namespace MyRPC.Server
 
         public async void Start()
         {
-            connection.Connect();
+            await connection.Connect();
             while (true)
             {
                 try
@@ -48,7 +48,7 @@ namespace MyRPC.Server
                 {
                     Console.WriteLine(e.Message);   
                     connection.Close();
-                    connection.Connect();
+                    await connection.Connect();
                 }  
             }
         }

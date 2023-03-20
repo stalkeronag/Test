@@ -10,7 +10,7 @@ namespace MyRPC.Interfaces
     {
         public void Close();
 
-        public void Connect();
+        public Task Connect();
 
         public Task Send(byte[] data);
 

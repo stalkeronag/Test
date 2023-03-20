@@ -20,7 +20,7 @@ namespace MyRPC.Client
 
         public async void Start()
         {
-            connection.Connect();
+            await connection.Connect();
             while(true)
             {
                 try
@@ -31,7 +31,7 @@ namespace MyRPC.Client
                         continue;
                     }
                     byte[] bytes = Encoding.UTF8.GetBytes(stringCommand);
-                    connection.Send(bytes);
+                    await connection.Send(bytes);
                     byte[] response = await connection.Read();
                     string answer = Encoding.UTF8.GetString(response);
                     Console.WriteLine("Server response:");
@@ -41,7 +41,7 @@ namespace MyRPC.Client
                 {
                     Console.WriteLine(e.Message);
                     connection.Close();
-                    connection.Connect();
+                    await connection.Connect();
                 }
                 
             }

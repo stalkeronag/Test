@@ -45,10 +45,10 @@ namespace MyRPC.Server
             listener.Stop();
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             listener.Start();
-            var client = listener.AcceptTcpClient();
+            var client = await listener.AcceptTcpClientAsync();
             stream = client.GetStream(); 
         }
 

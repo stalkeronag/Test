@@ -34,12 +34,12 @@ namespace MyRPC.Client
             client.Close();
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             try
             {
                 client = new TcpClient();
-                client.Connect(remoteEndPoint);
+                await client.ConnectAsync(remoteEndPoint);
                 stream = client.GetStream();
             }
             catch (Exception ex)

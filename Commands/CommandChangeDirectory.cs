@@ -14,7 +14,7 @@ namespace MyRPC.Commands
         public string[] Flags { get; set; }
         public string Name { get; set; }
 
-        public void Execute(HandlerBytes handler)
+        public async Task Execute(HandlerBytes handler)
         {
             if(Args.Length == 0)
             {
@@ -37,7 +37,7 @@ namespace MyRPC.Commands
                 }
             }
             byte[] resultInBytes = Encoding.UTF8.GetBytes(result);
-            handler.Invoke(resultInBytes);
+            await handler.Invoke(resultInBytes);
             Console.WriteLine(result);
         }
     }

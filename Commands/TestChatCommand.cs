@@ -37,7 +37,7 @@ namespace MyRPC.Commands
         }
 
 
-        public void Execute(HandlerBytes handler)
+        public async Task Execute(HandlerBytes handler)
         {
             Random random = new Random();
             string res;
@@ -45,13 +45,13 @@ namespace MyRPC.Commands
             {
                 int number = random.Next(0, 9);
                 byte[] answer = Encoding.UTF8.GetBytes(phrases[number]);
-                handler.Invoke(answer);
-                byte[] bytes = connection.Read();
+                await handler.Invoke(answer);
+                byte[] bytes = await connection.Read();
                 res = Encoding.UTF8.GetString(bytes);
                 Console.WriteLine(res);
             }
             while (res != "Exit");
-            handler.Invoke(Encoding.UTF8.GetBytes("Ты понимаешь что ты уже все"));
+            await handler.Invoke(Encoding.UTF8.GetBytes("Ты понимаешь что ты уже все"));
         }
     }
 }

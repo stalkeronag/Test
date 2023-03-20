@@ -9,7 +9,7 @@ using MyRPC.Interfaces;
 
 namespace MyRPC.Server
 {
-    public delegate void HandlerBytes(byte[] data);
+    public delegate Task HandlerBytes(byte[] data);
 
     public class ServiceServer : IService
     {
@@ -23,25 +23,25 @@ namespace MyRPC.Server
             this.connection = connection;
         }
 
-        public void Start()
+        public async void Start()
         {
             connection.Connect();
             while (true)
             {
                 try
                 {
-                    byte[] bytes = connection.Read();
+                    byte[] bytes = await connection.Read();
                     string commandString = Encoding.UTF8.GetString(bytes);
                     try
                     {
                         ICommand command = factory.CreateCommand(commandString);
-                        command.Execute((x) => connection.Send(x));
+                        await command.Execute((x) => connection.Send(x));
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         byte[] message_exception = Encoding.UTF8.GetBytes(ex.Message);
-                        connection.Send(message_exception);
+                        await connection.Send(message_exception);
                     }
                 }
                 catch(Exception e)

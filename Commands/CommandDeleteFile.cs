@@ -11,7 +11,7 @@ namespace MyRPC.Commands
         public string Name { get; set; }
 
 
-        public void Execute(HandlerBytes handler)
+        public async Task Execute(HandlerBytes handler)
         {
             throw new NotImplementedException();
         }

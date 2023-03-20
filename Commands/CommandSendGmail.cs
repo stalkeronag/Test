@@ -44,13 +44,13 @@ namespace MyRPC.Commands
             };
         }
 
-        public void Execute(HandlerBytes handler)
+        public async Task Execute(HandlerBytes handler)
         {
             string[] result = new string[6];
             for(int i = 0; i < phrases.Length; i++)
             {
-                handler.Invoke(Encoding.UTF8.GetBytes(phrases[i]));
-                result[i] = Encoding.UTF8.GetString(connection.Read());
+                await handler.Invoke(Encoding.UTF8.GetBytes(phrases[i]));
+                result[i] = Encoding.UTF8.GetString(await connection.Read());
             }
             string from = result[0];
             string to = result[1];
@@ -70,7 +70,7 @@ namespace MyRPC.Commands
                 }
                 client.Credentials = new NetworkCredential(from, pass);
                 client.Send(email);
-                handler.Invoke(Encoding.UTF8.GetBytes("Something like good"));
+                await handler.Invoke(Encoding.UTF8.GetBytes("Something like good"));
             }
             catch(Exception ex)
             {

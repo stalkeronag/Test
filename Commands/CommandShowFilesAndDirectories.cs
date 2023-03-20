@@ -12,7 +12,7 @@ namespace MyRPC.Commands
         public string Name { get; set; }
 
 
-        public void Execute(HandlerBytes handler)
+        public async Task  Execute(HandlerBytes handler)
         {
             DirectoryInfo info = new DirectoryInfo(ServerConfig.currentDirectory);
             StringBuilder builder= new StringBuilder();
@@ -28,7 +28,7 @@ namespace MyRPC.Commands
             }
             string result = builder.ToString();
             byte[] resultInBytes = Encoding.UTF8.GetBytes(result);
-            handler.Invoke(resultInBytes);
+            await handler.Invoke(resultInBytes);
             Console.WriteLine(result);
         }
     }

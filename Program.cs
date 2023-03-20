@@ -4,8 +4,9 @@ using MyRPC.Interfaces;
 using MyRPC.Server;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Security;
 using System.Text.Json;
-
+using System.Windows;
 
 
 string jsonString = "";
@@ -38,11 +39,18 @@ if(mode == 1)
     factory.AddCommand(senderGmail);
     service = new ServiceServer(factory, connection);
     service.Start();
+    while(true)
+    {
+       
+    }
 }
 else
 {
     IConnection connection = new TcpClientConnection(endPoint);
     service = new ServiceClient(connection);
     service.Start();
+    while(true)
+    {
+
+    }
 }
-service.Stop();

@@ -17,7 +17,7 @@ namespace MyRPC.Interfaces
         string[] Flags { get; set; }
 
 
-        public void Execute(HandlerBytes handler);
+        public Task Execute(HandlerBytes handler);
 
     }
 }

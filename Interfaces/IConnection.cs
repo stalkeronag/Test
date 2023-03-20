@@ -12,9 +12,9 @@ namespace MyRPC.Interfaces
 
         public void Connect();
 
-        public void Send(byte[] data);
+        public Task Send(byte[] data);
 
-        public byte[] Read();
+        public Task<byte[]> Read();
 
     }
 }

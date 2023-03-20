@@ -52,17 +52,17 @@ namespace MyRPC.Server
             stream = client.GetStream(); 
         }
 
-        public byte[] Read()
+        public async Task<byte[]> Read()
         {
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                byte[] buffer = new byte[1024];
-                int length = stream.Read(buffer, 0, buffer.Length);
+                byte[] buffer = new byte[65500];
+                int length = await stream.ReadAsync(buffer);
                 memoryStream.Write(buffer, 0, length);
                 while (stream.DataAvailable)
                 {
-                    length = stream.Read(buffer, 0, buffer.Length);
+                    length = await stream.ReadAsync(buffer);
                     memoryStream.Write(buffer, 0, length);
                 }
                 return memoryStream.ToArray();
@@ -70,9 +70,9 @@ namespace MyRPC.Server
 
         }
 
-        public void Send(byte[] data)
+        public async Task Send(byte[] data)
         {
-            stream.Write(data, 0, data.Length);
+            await stream.WriteAsync(data);
         }
     }
 }

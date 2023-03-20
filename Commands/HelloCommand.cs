@@ -16,11 +16,11 @@ namespace MyRPC.Commands
         public string Name { get; set; }
 
 
-        public void Execute(HandlerBytes handler)
+        public async Task Execute(HandlerBytes handler)
         {
             Console.WriteLine("Hello world");
             byte[] bytes = Encoding.UTF8.GetBytes("Heheheha");
-            handler.Invoke(bytes);
+            await handler.Invoke(bytes);
         }
     }
 }
